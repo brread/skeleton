@@ -148,5 +148,3 @@ function inject(gameSource) {
         subtree: true,
     });
 }
-
-module.exports = Cheat;
