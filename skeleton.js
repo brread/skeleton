@@ -132,15 +132,16 @@ function hook(gameSource) {
     };
 
     const observer = new MutationObserver((mutationList) => {
+        let isHooked = false;
+        
         mutationList.forEach(mutation => {
             if (mutation.addedNodes) {
                 for (const node of mutation.addedNodes) {
-                    if (node.tagName === "SCRIPT" && node.innerHTML.includes("@license Krunker.io")) {
+                    if (!isHooked && node.tagName === "SCRIPT" && node.innerHTML.includes("@license Krunker.io")) {
                         node.remove();
-                        
                         Function(gameSource)();
-                        
                         observer.disconnect();
+                        isHooked = true;
                     }
                 }
             }
