@@ -46,7 +46,7 @@ new Cheat(gameSourceUrl, { init, inputs, render }, methods);
       "type": "module"
 
       // your_cheat.(m)js
-      const Cheat = require("./skeleton.js");
+      import Cheat from "./skeleton.js";
       ```  
   - Use `require` syntax:
       ```js
