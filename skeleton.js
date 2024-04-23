@@ -1,25 +1,20 @@
-// ==UserScript==
-// @name        raw hook
-// @match       *://krunker.io/*
-// @grant       none
-// @version     1.0
-// @author      bread
-// @description krunker cheat skeleton
-// @run-at      document-start
-// @noframes
-// ==/UserScript==
 
 class Cheat {
-    constructor(gameSourceUrl, methods) {
+    constructor(gameSourceUrl, { init, inputs, render }, methods) {
         window.cheat = this;
+
+        this.init = init.bind(this);
+        this.inputs = inputs.bind(this);
+        this.render = render.bind(this);
 
         for (const fn in methods)
             this[fn] = methods[fn].bind(this);
 
         const gameSource = this.download(gameSourceUrl);
 
-        inject(gameSource);
-        this.run();
+        hook(gameSource);
+        this.defines();
+        this.init();
     }
 
     download(url) {
@@ -31,7 +26,7 @@ class Cheat {
         return request.response;
     }
 
-    run() {
+    defines() {
         this.isProxy = Symbol("isProxy");
 
         Object.defineProperties(Object.prototype, {
@@ -85,7 +80,17 @@ class Cheat {
                 },
 
                 get() { return this._canvas }
-            }
+            },
+
+            OBJLoader: {
+                set(val) {
+                    window.cheat.three = this;
+                    this._value = val;
+                },
+                get() {
+                    return this._value;
+                },
+            },
         });
     }
 
@@ -95,7 +100,7 @@ class Cheat {
 }
 
 // "Socket Error" when this is a method of the Cheat class
-function inject(gameSource) {
+function hook(gameSource) {
     let tokenPromiseResolve;
     const tokenPromise = new Promise((resolve) => (tokenPromiseResolve = resolve));
 
