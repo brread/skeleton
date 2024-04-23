@@ -69,7 +69,6 @@ new Cheat("https://sub2krunkercentral.com/game_1_4.js", {
             const rectHeight = Math.round(bottom.y - top.y);
             const rectWidth = Math.round(rectHeight * 0.65);
 
-            this.ctx.lineWidth = 1;
             this.ctx.strokeStyle = "#f00";
 
             this.ctx.strokeRect(Math.round(top.x - rectWidth / 2), Math.round(top.y), Math.round(rectWidth), Math.round(rectHeight));
