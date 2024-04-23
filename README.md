@@ -3,49 +3,54 @@
 
 ## Usage
 ```js
-new Cheat(gameSourceUrl, { inputs, render, ... });
+new Cheat(gameSourceUrl, { init, inputs, render }, methods);
 ```
 
-`gameSourceUrl` - game source code to load
+- `gameSourceUrl` - game source code to load
 
-`inputs` and `render` will be attached to the Cheat instance (`this`) and ran every frame
-- custom methods can be attached (e.g. `getDist3D` or `world2Screen`)
+- `init` runs once after setup (used for initializing a GUI)
+  - note: you must create your own event listeners (`DOMContentloaded`, etc)
+- `inputs` and `render` run once each frame
+
+- `methods` is a dictionary/object of custom functions that will be attached to the Cheat instance (`this`)
+  - e.g. `this.distance3D`
+- Read `example_cheat.js` <3
 
 <hr>
 
-### Example code
-```js
-import Cheat from "./skeleton.js";
+## How to import
+- Tampermonkey (browser)
+  - add `@require https://raw.githubusercontent.com/brread/skeleton/main/skeleton.js` to the script header
+- Node.js (client)
+  - Use `fetch`:
+    ```js
+    // in an async function
+    const data = await fetch("https://raw.githubusercontent.com/brread/skeleton/main/skeleton.js");
+    const code = await data.text();
 
-new Cheat("https://sub2krunkercentral.com/game_1_4.js", {
-    inputs(input) {
-        const keyEnum = {
-            frame: 0,
-            delta: 1,
-            xdir: 2,
-            ydir: 3,
-            moveDir: 4,
-            shoot: 5,
-            scope: 6,
-            jump: 7,
-            reload: 8,
-            crouch: 9,
-            weaponScroll: 10,
-            weaponSwap: 11,
-            moveLock: 12,
-        };
-
-        console.log("Inputs test");
+    Function(code)(); // or eval(code);
     
-        return input;
-    },
+    // or
+    fetch("https://raw.githubusercontent.com/brread/skeleton/main/skeleton.js")
+        .then(data => data.text())
+        .then(eval) // or code => Function(code)()
+    ```
+  - Use `import` syntax:
+      ```js
+      // skeleton.js
+      module.exports = Cheat;
 
-    render() {
-        const scale = this.scale || parseFloat(RegExp(/\((.+)\)/).exec(document.getElementById("uiBase").style.transform)[1]);
-        const width = innerWidth / scale;
-        const height = innerHeight / scale;
+      // package.json (or use your_cheat.mjs instead of your_cheat.js)
+      "type": "module"
 
-        console.log("Rendering test");
-    }
-});
-```
+      // your_cheat.(m)js
+      const Cheat = require("./skeleton.js");
+      ```  
+  - Use `require` syntax:
+      ```js
+      // skeleton.js
+      module.exports = Cheat;
+
+      // your_cheat.js
+      const Cheat = require("./skeleton.js");
+      ```  
