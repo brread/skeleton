@@ -22,7 +22,7 @@ new Cheat(gameSourceUrl, { init, inputs, render }, methods);
 - Tampermonkey (browser)
   - add `@require https://raw.githubusercontent.com/brread/skeleton/main/skeleton.js` to the script header
 - Node.js (client)
-  - Use `fetch` (Cheat will be defined as window.Cheat):
+  - Use `fetch` (`Cheat` will be defined as `window.Cheat`):
     ```js
     // in an async function
     const data = await fetch("https://raw.githubusercontent.com/brread/skeleton/main/skeleton.js");
