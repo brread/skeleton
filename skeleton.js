@@ -1,5 +1,4 @@
-
-class Cheat {
+window.Cheat = class Cheat {
     constructor(gameSourceUrl, { init, inputs, render }, methods) {
         window.cheat = this;
 
