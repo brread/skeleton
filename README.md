@@ -3,7 +3,7 @@
 
 ## Usage
 ```js
-new Cheat(gameSourceUrl, { init, inputs, render }, methods);
+new Cheat(gameSourceUrl, { init, inputs, render }, methods, customDefines);
 ```
 
 - `gameSourceUrl` - game source code to load
@@ -14,6 +14,8 @@ new Cheat(gameSourceUrl, { init, inputs, render }, methods);
 
 - `methods` is a dictionary/object of custom functions that will be attached to the Cheat instance (`this`)
   - e.g. `this.distance3D`
+- `customDefines` is a dictionary/object of custom defines that will be applied during initialization
+  - e.g. `thirdPerson` or `events`
 - Read `example_cheat.js` <3
 
 <hr>
