@@ -113,15 +113,6 @@ new Cheat("https://sub2krunkercentral.com/game_1_4.js", {
         const width = innerWidth / this.scale;
         const height = innerHeight / this.scale;
 
-        // aimbot fov circle
-
-        this.ctx.strokeStyle = "#fff";
-        this.ctx.beginPath()
-        this.ctx.arc(width / 2, height / 2, this.settings.aimbotFov / this.scale, 0, 2 * Math.PI);
-        this.ctx.stroke();
-
-        // esp + nametag
-
         const enemies = this.game.players.list.filter(player => (!player.isYou && (!this.me.team || player.team !== this.me.team)));
 
         for (const enemy of enemies) {
@@ -136,12 +127,16 @@ new Cheat("https://sub2krunkercentral.com/game_1_4.js", {
             const rectHeight = Math.round(bottom.y - top.y);
             const rectWidth = Math.round(rectHeight * 0.65);
 
+            // box esp
+
             this.ctx.lineWidth = Math.min(1 + rectWidth / 30, 2);
             this.ctx.strokeStyle = "#f00";
 
             this.ctx.strokeRect(Math.round(top.x - rectWidth / 2), Math.round(top.y), Math.round(rectWidth), Math.round(rectHeight));
 
             if (enemy.cnBSeen) continue;
+
+            // nametag
 
             this.ctx.font = "Arial 24px";
             this.ctx.textAlign = "center";
@@ -153,6 +148,13 @@ new Cheat("https://sub2krunkercentral.com/game_1_4.js", {
 
             this.ctx.fillText(nametagText, Math.round(top.x), Math.round(top.y) - 5);
         }
+
+        // aimbot fov circle
+
+        this.ctx.strokeStyle = "#fff";
+        this.ctx.beginPath()
+        this.ctx.arc(width / 2, height / 2, this.settings.aimbotFov / this.scale, 0, 2 * Math.PI);
+        this.ctx.stroke();
     }
 }, {
     world2Screen(pos, width, height, offsetY = 0) {
