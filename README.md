@@ -33,7 +33,7 @@ new Cheat(gameSourceUrl, { init, inputs, render }, methods);
     // or
     fetch("https://raw.githubusercontent.com/brread/skeleton/main/skeleton.js")
         .then(data => data.text())
-        .then(eval) // or code => Function(code)()
+        .then(eval) // or (code) => Function(code)()
 
     new window.Cheat(...);
     ```
