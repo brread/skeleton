@@ -1,5 +1,6 @@
 window.Cheat = class Cheat {
     constructor(gameSourceUrl, { init, inputs, render }, methods) {
+
         window.cheat = this;
 
         this.init = init.bind(this);
@@ -10,10 +11,31 @@ window.Cheat = class Cheat {
             this[fn] = methods[fn].bind(this);
 
         const gameSource = this.download(gameSourceUrl);
-
+        
         hook(gameSource);
         this.defines();
         this.init();
+    }
+
+    static async build(...args) {
+        if (!document.documentElement) {
+            await (() => {
+                let done;
+            
+                const promise = new Promise(res => (done = res));
+            
+                const observer = new MutationObserver(() => {
+                    if (document.documentElement)
+                        done();
+                });
+            
+                observer.observe(document, { childList: true });
+            
+                return promise;
+            })();
+        }
+
+        new Cheat(...args);
     }
 
     download(url) {
